@@ -16,6 +16,7 @@
     "setup": "yarn mustache-yaml && yarn codegen && yarn graph-auth && yarn deploy",
     "setup:local": "yarn mustache-yaml && yarn codegen && yarn deploy:local",
     "mustache-yaml": "./node_modules/.bin/dotenv -- yarn mustache-yaml-replace",
+    "m": "mustache ./config/mainnet.json ethereum.subgraph.template.yaml > subgraph.yaml",
     "mustache-yaml-replace": "mustache ./config/${CONFIG:-dev}.json ${BLOCKCHAIN:-ethereum}.subgraph.template.yaml > subgraph.yaml",
     "codegen": "rm -rf build generated && graph codegen --output-dir ./generated",
     "graph-auth": "./node_modules/.bin/dotenv -- yarn graph-auth-replace",
@@ -33,7 +34,7 @@
     "@graphprotocol/graph-ts": "^0.20.1",
     "@types/node": "^16.3.2",
     "dotenv": "^10.0.0",
-    "dotenv-cli": "^4.0.0",
+    "dotenv-cli": "^4.1.1",
     "mustache": "^4.2.0",
     "typescript": "^4.3.5"
   },
