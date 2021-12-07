@@ -23,6 +23,7 @@
     "graph-auth": "./node_modules/.bin/dotenv -- yarn graph-auth-replace",
     "graph-auth-replace": "graph auth https://api.thegraph.com/deploy/ $ACCESS_TOKEN",
     "deploy": "./node_modules/.bin/dotenv -- yarn graph-deploy-replace",
+    "deploy-mich": "graph deploy --product hosted-service --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ miklt/megagraph subgraph.yaml --access-token ",
     "graph-deploy-replace": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ $SLUG",
     "deploy:local": "yarn graph-create-local && yarn graph-deploy-local",
     "graph-create-local": "./node_modules/.bin/dotenv -- yarn graph-create-local-replace",

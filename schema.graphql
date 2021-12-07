@@ -220,20 +220,16 @@ type HarvestTokenData @entity {
 type LidoTokenData @entity {  
   id: ID!
   blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  type: String!
-  # LidoTransfer
+  blockTimestamp: BigInt!   
   totalPooledEtherAfter: BigInt! # 
   totalPooledEtherBefore: BigInt!
   totalSharesAfter: BigInt!  
   totalShareBefore: BigInt!  
-  transferAmount: BigInt!
+  tokenAmount: BigInt!
   balanceAfter: BigInt!
   from: Bytes!
-  to: Bytes!
-  # LidoSubmission
-  sender: Bytes!
-  # TotalReward
+  to: Bytes!  
+  sender: Bytes!  
   totalRewards: BigInt
   totalRewardsWithFees: BigInt
   totalFee: BigInt
@@ -243,6 +239,22 @@ type LidoTokenData @entity {
   sharesToTreasury:BigInt
   aprBeforeFees: BigDecimal
   apr: BigDecimal
+}
+type LidoNodeOperatorSigningKey @entity {
+  id: ID!
+  operatorId: BigInt!
+  pubkey: Bytes!
+  removed: Boolean!
+}
+
+type LidoNodeOperator @entity {
+  id: ID!
+
+  name: String!
+  rewardAddress: Bytes!
+  stakingLimit: BigInt!
+  active: Boolean!
+  totalStoppedValidators: BigInt
 }
 
 # ----------------------------------------
