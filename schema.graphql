@@ -1,218 +1,234 @@
-# ----------------------------------------
-#      Aave
-# ----------------------------------------
-type AaveTokenData @entity {
-  id: ID!
-  transactionHash: Bytes!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  address: Bytes!
-  symbol: String!
+# # ----------------------------------------
+# #      Aave
+# # ----------------------------------------
+# type AaveTokenData @entity {
+#   id: ID!
+#   transactionHash: Bytes!
+#   blockNumber: BigInt!
+#   blockTimestamp: BigInt!
+#   address: Bytes!
+#   symbol: String!
 
-  decimals: Int
-  ltv: BigDecimal
-  liquidationThreshold: BigDecimal
-  liquidationBonus: BigDecimal
-  interestRateStrategyAddress: Bytes
-  usageAsCollateralEnabled: Boolean
-  borrowingEnabled: Boolean
-  stableBorrowRateEnabled: Boolean
-  isActive: Boolean
+#   decimals: Int
+#   ltv: BigDecimal
+#   liquidationThreshold: BigDecimal
+#   liquidationBonus: BigDecimal
+#   interestRateStrategyAddress: Bytes
+#   usageAsCollateralEnabled: Boolean
+#   borrowingEnabled: Boolean
+#   stableBorrowRateEnabled: Boolean
+#   isActive: Boolean
 
-  totalLiquidity: BigDecimal
-  availableLiquidity: BigDecimal
-  totalBorrowsStable: BigDecimal
-  totalBorrowsVariable: BigDecimal
-  liquidityRate: BigDecimal
-  variableBorrowRate: BigDecimal
-  stableBorrowRate: BigDecimal
-  averageStableBorrowRate: BigDecimal
-  utilizationRate: BigDecimal
-  liquidityIndex: BigInt
-  variableBorrowIndex: BigInt
-  aTokenAddress: Bytes
-  lastUpdateTimestamp: BigInt
-}
+#   totalLiquidity: BigDecimal
+#   availableLiquidity: BigDecimal
+#   totalBorrowsStable: BigDecimal
+#   totalBorrowsVariable: BigDecimal
+#   liquidityRate: BigDecimal
+#   variableBorrowRate: BigDecimal
+#   stableBorrowRate: BigDecimal
+#   averageStableBorrowRate: BigDecimal
+#   utilizationRate: BigDecimal
+#   liquidityIndex: BigInt
+#   variableBorrowIndex: BigInt
+#   aTokenAddress: Bytes
+#   lastUpdateTimestamp: BigInt
+# }
 
-# ----------------------------------------
-#      AaveV2
-# ----------------------------------------
-type AaveV2TokenData @entity {
-  id: ID!
-  transactionHash: Bytes!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  address: Bytes!
-  symbol: String!
+# # ----------------------------------------
+# #      AaveV2
+# # ----------------------------------------
+# type AaveV2TokenData @entity {
+#   id: ID!
+#   transactionHash: Bytes!
+#   blockNumber: BigInt!
+#   blockTimestamp: BigInt!
+#   address: Bytes!
+#   symbol: String!
 
-  decimals: Int
-  ltv: BigDecimal
-  liquidationThreshold: BigDecimal
-  liquidationBonus: BigDecimal
-  reserveFactor: BigDecimal
-  usageAsCollateralEnabled: Boolean
-  borrowingEnabled: Boolean
-  stableBorrowRateEnabled: Boolean
-  isActive: Boolean
-  isFrozen: Boolean
+#   decimals: Int
+#   ltv: BigDecimal
+#   liquidationThreshold: BigDecimal
+#   liquidationBonus: BigDecimal
+#   reserveFactor: BigDecimal
+#   usageAsCollateralEnabled: Boolean
+#   borrowingEnabled: Boolean
+#   stableBorrowRateEnabled: Boolean
+#   isActive: Boolean
+#   isFrozen: Boolean
 
-  availableLiquidity: BigDecimal
-  totalStableDebt: BigDecimal
-  totalVariableDebt: BigDecimal
-  liquidityRate: BigDecimal
-  variableBorrowRate: BigDecimal
-  stableBorrowRate: BigDecimal
-  averageStableBorrowRate: BigDecimal
-  liquidityIndex: BigDecimal
-  variableBorrowIndex: BigDecimal
-  lastUpdateTimestamp: BigInt
-}
+#   availableLiquidity: BigDecimal
+#   totalStableDebt: BigDecimal
+#   totalVariableDebt: BigDecimal
+#   liquidityRate: BigDecimal
+#   variableBorrowRate: BigDecimal
+#   stableBorrowRate: BigDecimal
+#   averageStableBorrowRate: BigDecimal
+#   liquidityIndex: BigDecimal
+#   variableBorrowIndex: BigDecimal
+#   lastUpdateTimestamp: BigInt
+# }
 
-# ----------------------------------------
-#      Compound
-# ----------------------------------------
-type CompoundTokenData @entity {
-  id: ID!
-  blockNumber: BigInt
-  blockTimestamp: BigInt
-  borrowIndex: BigDecimal
-  borrowRatePerBlock: BigDecimal
-  compSpeed: BigDecimal
-  cTokenSymbol: String
-  cTokenAddress: Bytes
-  exchangeRate: BigDecimal
-  supplyRatePerBlock: BigDecimal
-  totalCash: BigDecimal
-  totalBorrows: BigDecimal
-  totalSupply: BigInt
-  totalReserves: BigDecimal
-}
+# # ----------------------------------------
+# #      Compound
+# # ----------------------------------------
+# type CompoundTokenData @entity {
+#   id: ID!
+#   blockNumber: BigInt
+#   blockTimestamp: BigInt
+#   borrowIndex: BigDecimal
+#   borrowRatePerBlock: BigDecimal
+#   compSpeed: BigDecimal
+#   cTokenSymbol: String
+#   cTokenAddress: Bytes
+#   exchangeRate: BigDecimal
+#   supplyRatePerBlock: BigDecimal
+#   totalCash: BigDecimal
+#   totalBorrows: BigDecimal
+#   totalSupply: BigInt
+#   totalReserves: BigDecimal
+# }
 
-# ----------------------------------------
-#      Convex
-# ----------------------------------------
-type ConvexExtraReward @entity {
-  id: ID!
-  token: Bytes!
-  rewardPool: Bytes!
-  finishPeriod: BigInt!
-  rewardRatePerSecond: BigDecimal!
-}
+# # ----------------------------------------
+# #      Convex
+# # ----------------------------------------
+# type ConvexExtraReward @entity {
+#   id: ID!
+#   token: Bytes!
+#   rewardPool: Bytes!
+#   finishPeriod: BigInt!
+#   rewardRatePerSecond: BigDecimal!
+# }
 
-type ConvexPoolData @entity {
-  id: ID!
-  lpToken: Bytes!
-  token: Bytes!
-  gauge: Bytes!
-  crvRewards: Bytes!
-  stash: Bytes!
-  stashVersion: String!
-  shutdown: Boolean!
-}
+# type ConvexPoolData @entity {
+#   id: ID!
+#   lpToken: Bytes!
+#   token: Bytes!
+#   gauge: Bytes!
+#   crvRewards: Bytes!
+#   stash: Bytes!
+#   stashVersion: String!
+#   shutdown: Boolean!
+# }
 
-type ConvexTokenData @entity {
-  id: ID!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  pool: ConvexPoolData!
-  totalSupply: BigInt
-  virtualPrice: BigDecimal
-  crvRatePerSecond: BigDecimal
-  cvxRatePerSecond: BigDecimal
-  extras: [ConvexExtraReward!]
-}
+# type ConvexTokenData @entity {
+#   id: ID!
+#   blockNumber: BigInt!
+#   blockTimestamp: BigInt!
+#   pool: ConvexPoolData!
+#   totalSupply: BigInt
+#   virtualPrice: BigDecimal
+#   crvRatePerSecond: BigDecimal
+#   cvxRatePerSecond: BigDecimal
+#   extras: [ConvexExtraReward!]
+# }
 
-# ----------------------------------------
-#      C.R.E.A.M.
-# ----------------------------------------
-type CreamTokenData @entity {
-  id: ID!
-  transactionHash: Bytes!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  address: Bytes!
-  symbol: String!
-  compSpeeds: BigDecimal
-  borrowIndex: BigInt
-  borrowRatePerBlock: BigDecimal
-  supplyRatePerBlock: BigDecimal
-  exchangeRateStored: BigDecimal
-  totalCash: BigDecimal
-  totalBorrows: BigDecimal
-  totalSupply: BigDecimal
-  totalReserves: BigDecimal
-}
+# # ----------------------------------------
+# #      C.R.E.A.M.
+# # ----------------------------------------
+# type CreamTokenData @entity {
+#   id: ID!
+#   transactionHash: Bytes!
+#   blockNumber: BigInt!
+#   blockTimestamp: BigInt!
+#   address: Bytes!
+#   symbol: String!
+#   compSpeeds: BigDecimal
+#   borrowIndex: BigInt
+#   borrowRatePerBlock: BigDecimal
+#   supplyRatePerBlock: BigDecimal
+#   exchangeRateStored: BigDecimal
+#   totalCash: BigDecimal
+#   totalBorrows: BigDecimal
+#   totalSupply: BigDecimal
+#   totalReserves: BigDecimal
+# }
 
-# ----------------------------------------
-#      Curve
-# ----------------------------------------
-type CurveGaugeData @entity {
-  id: ID!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  gaugeController: Bytes!
-  liquidityGauge: Bytes!
-  gaugeWeight: BigDecimal!
-  totalWeight: BigDecimal!
-}
+# # ----------------------------------------
+# #      Curve
+# # ----------------------------------------
+# type CurveGaugeData @entity {
+#   id: ID!
+#   blockNumber: BigInt!
+#   blockTimestamp: BigInt!
+#   gaugeController: Bytes!
+#   liquidityGauge: Bytes!
+#   gaugeWeight: BigDecimal!
+#   totalWeight: BigDecimal!
+# }
 
-type CurvePoolData @entity {
-  id: ID!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  vault: Bytes!
-  balance: [BigDecimal!]!
-  virtualPrice: BigDecimal!
-  tokens: [Bytes!]!
-}
+# type CurvePoolData @entity {
+#   id: ID!
+#   blockNumber: BigInt!
+#   blockTimestamp: BigInt!
+#   vault: Bytes!
+#   balance: [BigDecimal!]!
+#   virtualPrice: BigDecimal!
+#   tokens: [Bytes!]!
+# }
 
-# ----------------------------------------
-#      dForce
-# ----------------------------------------
-type DForceTokenData @entity {
-  id: ID!
-  pricePerFullShare: BigDecimal
-  balance: BigDecimal
-  blockNumber: BigInt
-  blockTimestamp: BigInt
-  dTokenSymbol: String
-  dTokenAddress: Bytes
-  rewardRate: BigInt
-}
+# # ----------------------------------------
+# #      dForce
+# # ----------------------------------------
+# type DForceTokenData @entity {
+#   id: ID!
+#   pricePerFullShare: BigDecimal
+#   balance: BigDecimal
+#   blockNumber: BigInt
+#   blockTimestamp: BigInt
+#   dTokenSymbol: String
+#   dTokenAddress: Bytes
+#   rewardRate: BigInt
+# }
 
-# ----------------------------------------
-#      bZx Fulcrum
-# ----------------------------------------
-type FulcrumTokenData @entity {
-  id: ID!
-  transactionHash: Bytes!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  address: Bytes!
-  symbol: String!
-  supplyInterestRate: BigDecimal
-  borrowInterestRate: BigDecimal
-  tokenPrice: BigDecimal
-  marketLiquidity: BigDecimal
-  totalSupply: BigDecimal
-}
+# # ----------------------------------------
+# #      bZx Fulcrum
+# # ----------------------------------------
+# type FulcrumTokenData @entity {
+#   id: ID!
+#   transactionHash: Bytes!
+#   blockNumber: BigInt!
+#   blockTimestamp: BigInt!
+#   address: Bytes!
+#   symbol: String!
+#   supplyInterestRate: BigDecimal
+#   borrowInterestRate: BigDecimal
+#   tokenPrice: BigDecimal
+#   marketLiquidity: BigDecimal
+#   totalSupply: BigDecimal
+# }
 
-# ----------------------------------------
-#      Harvest
-# ----------------------------------------
-type HarvestTokenData @entity {
-  id: ID!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  lastUpdateTime: BigInt!
-  rewardRate: BigInt!
-  rewardPerTokenStored: BigInt!
-  pricePerFullShare: BigDecimal!
-  underlyingBalanceWithInvestment: BigDecimal!
-  underlyingBalanceInVault: BigDecimal!
-  pool: Bytes!
-  vault: Bytes!
-}
+# # ----------------------------------------
+# #      Harvest
+# # ----------------------------------------
+# type HarvestTokenData @entity {
+#   id: ID!
+#   blockNumber: BigInt!
+#   blockTimestamp: BigInt!
+#   lastUpdateTime: BigInt!
+#   rewardRate: BigInt!
+#   rewardPerTokenStored: BigInt!
+#   pricePerFullShare: BigDecimal!
+#   underlyingBalanceWithInvestment: BigDecimal!
+#   underlyingBalanceInVault: BigDecimal!
+#   pool: Bytes!
+#   vault: Bytes!
+# }
+
+
+# # ----------------------------------------
+# #      Yearn
+# # ----------------------------------------
+# type YearnTokenData @entity {
+#   id: ID!
+#   balance: BigDecimal!
+#   pricePerFullShare: BigDecimal!
+#   blockNumber: BigInt!
+#   blockTimestamp: BigInt!
+#   symbol: String!
+#   vault: Bytes!
+#   underlyingToken: Bytes!
+# }
+
 
 # ----------------------------------------
 #      Lido Finance
@@ -221,52 +237,21 @@ type LidoTokenData @entity {
   id: ID!
   blockNumber: BigInt!
   blockTimestamp: BigInt!   
-  totalPooledEtherAfter: BigInt! # 
-  totalPooledEtherBefore: BigInt!
-  totalSharesAfter: BigInt!  
-  totalShareBefore: BigInt!  
-  tokenAmount: BigInt!
-  balanceAfter: BigInt!
-  from: Bytes!
-  to: Bytes!  
-  sender: Bytes!  
+  totalPooledEtherAfter: BigInt # 
+  totalPooledEtherBefore: BigInt
+  totalSharesAfter: BigInt  
+  totalSharesBefore: BigInt  
+  tokenAmount: BigInt    
+}
+
+type LidoRewardData @entity {
+  id: ID!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!   
   totalRewards: BigInt
   totalRewardsWithFees: BigInt
-  totalFee: BigInt
-  shares2mint: BigInt
-  sharesToInsuranceFund: BigInt
-  sharesToOperators: BigInt
-  sharesToTreasury:BigInt
+  totalFee: BigInt  
   aprBeforeFees: BigDecimal
   apr: BigDecimal
 }
-type LidoNodeOperatorSigningKey @entity {
-  id: ID!
-  operatorId: BigInt!
-  pubkey: Bytes!
-  removed: Boolean!
-}
 
-type LidoNodeOperator @entity {
-  id: ID!
-
-  name: String!
-  rewardAddress: Bytes!
-  stakingLimit: BigInt!
-  active: Boolean!
-  totalStoppedValidators: BigInt
-}
-
-# ----------------------------------------
-#      Yearn
-# ----------------------------------------
-type YearnTokenData @entity {
-  id: ID!
-  balance: BigDecimal!
-  pricePerFullShare: BigDecimal!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  symbol: String!
-  vault: Bytes!
-  underlyingToken: Bytes!
-}
