@@ -1,14 +1,13 @@
 import { Address } from '@graphprotocol/graph-ts'
 import {Completed, PostTotalShares} from '../../../generated/LidoOracle/LidoOracle'
 import {LidoTokenData,LidoRewardData} from '../../../generated/schema'
-import { loadLidoContract, loadOracleContract } from './handlers'
+import { loadLidoContract, loadOracleContract, loadNORegistryContract } from './handlers'
 
 export function handleCompleted(event: Completed): void {
 
-    let lidoContract = loadLidoContract()
-    let balance = event.params.beaconBalance
     
-    // new lido event.
+    
+    // new reward event.
     let entity = LidoRewardData.load(event.transaction.hash.toHex()) 
     if (entity == null){
         entity = new LidoRewardData(
@@ -17,6 +16,10 @@ export function handleCompleted(event: Completed): void {
       entity.blockNumber = event.block.number
       entity.blockTimestamp = event.block.timestamp
     }
+    let balance = event.params.beaconBalance
+    let lidoContract = loadLidoContract()    
+    let lidoNORContract = loadNORegistryContract()
+    
      
     entity.save()
 }

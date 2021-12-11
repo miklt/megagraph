@@ -35,7 +35,7 @@
         {
           "contract": "Oracle",
           "abis": ["Oracle", "NodeOperatorsRegistry"],
-          "entities": ["LidoTokenData"],
+          "entities": ["LidoTokenData","LidoOracle"],
           "events": [
             {
               "event-name": "Completed",
