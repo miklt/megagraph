@@ -1,50 +1,47 @@
 import { Address } from "@graphprotocol/graph-ts";
 import { Transfer, Submitted, Withdrawal } from "../../../generated/LidoTokenstETH/LidoToken";
 import { LidoTokenData, LidoRewardData, Totals } from "../../../generated/schema";
-import { LidoTreasuryAddress, ZERO_BI } from "../../utils/constants";
-import { loadLidoContract, loadOracleContract, loadNORegistryContract, DUST_BOUNDARY } from "./handlers";
+import { LIDO_DUST_BOUNDARY } from "./lidoConstants";
+import { ZERO_BI, LidoTreasuryAddress } from "../../utils/constants";
 export function handleTransfer(event: Transfer): void {
   // new lido event.
-  let value = event.params.value;
+
   let entity = LidoTokenData.load(event.transaction.hash.toHex());
   if (entity == null) {
     entity = new LidoTokenData(event.transaction.hash.toHex());
     entity.blockNumber = event.block.number;
     entity.blockTimestamp = event.block.timestamp;
   }
-  let lidoContract = loadLidoContract();
-  let totalPooledEther = lidoContract.getTotalPooledEther();
-  let totalShares = lidoContract.getTotalShares();
-  let amount = event.params.value;
-  entity.totalPooledEtherAfter = totalPooledEther;
-  entity.totalSharesAfter = totalShares;
-  entity.tokenAmount = amount;
+
   let fromZeros = event.params.from == Address.fromString("0x0000000000000000000000000000000000000000");
 
-  let totalRewardsEntity = LidoRewardData.load(event.transaction.hash.toHex());
+  let lidoRewards = LidoRewardData.load(event.transaction.hash.toHex());
   let totals = Totals.load("") as Totals;
-  let shares = event.params.value.times(totals.totalShares).div(totals.totalPooledEther);
+  let totalPooledEther = totals.totalPooledEther;
+  let totalShares = totals.totalShares;
 
+  entity.totalPooledEther = totalPooledEther;
+  entity.totalShares = totalShares;
   let isFeeDistributionToTreasury = fromZeros && event.params.to == LidoTreasuryAddress;
 
   // graph-ts less or equal to
-  let isDust = event.params.value.lt(DUST_BOUNDARY);
+  let isDust = event.params.value.lt(LIDO_DUST_BOUNDARY);
 
-  if (totalRewardsEntity != null && isFeeDistributionToTreasury && !isDust) {
-    totalRewardsEntity.totalRewards = totalRewardsEntity.totalRewards.minus(event.params.value);
-    totalRewardsEntity.totalFee = totalRewardsEntity.totalFee.plus(event.params.value);
+  if (lidoRewards != null && isFeeDistributionToTreasury && !isDust) {
+    lidoRewards.totalRewards = lidoRewards.totalRewards.minus(event.params.value);
+    lidoRewards.totalFee = lidoRewards.totalFee.plus(event.params.value);
 
-    totalRewardsEntity.save();
-  } else if (totalRewardsEntity != null && isFeeDistributionToTreasury && isDust) {
-    totalRewardsEntity.totalRewards = totalRewardsEntity.totalRewards.minus(event.params.value);
-    totalRewardsEntity.totalFee = totalRewardsEntity.totalFee.plus(event.params.value);
+    lidoRewards.save();
+  } else if (lidoRewards != null && isFeeDistributionToTreasury && isDust) {
+    lidoRewards.totalRewards = lidoRewards.totalRewards.minus(event.params.value);
+    lidoRewards.totalFee = lidoRewards.totalFee.plus(event.params.value);
 
-    totalRewardsEntity.save();
-  } else if (totalRewardsEntity != null && fromZeros) {
-    totalRewardsEntity.totalRewards = totalRewardsEntity.totalRewards.minus(event.params.value);
-    totalRewardsEntity.totalFee = totalRewardsEntity.totalFee.plus(event.params.value);
+    lidoRewards.save();
+  } else if (lidoRewards != null && fromZeros) {
+    lidoRewards.totalRewards = lidoRewards.totalRewards.minus(event.params.value);
+    lidoRewards.totalFee = lidoRewards.totalFee.plus(event.params.value);
 
-    totalRewardsEntity.save();
+    lidoRewards.save();
   }
 
   entity.save();
@@ -65,20 +62,21 @@ export function handleSubmitted(event: Submitted): void {
   if (entity == null) {
     entity = new LidoTokenData(event.transaction.hash.toHex());
   }
-  let lidoContract = loadLidoContract();
-  let totalPooledEther = lidoContract.getTotalPooledEther();
-  let shares = lidoContract.getTotalShares();
+
+  // At deployment ratio is 1:1
+  let shares = !isFirstSubmission
+    ? event.params.amount.times(totals.totalShares).div(totals.totalPooledEther)
+    : event.params.amount;
+
+  totals.totalPooledEther = totals.totalPooledEther.plus(event.params.amount);
+  totals.totalShares = totals.totalShares.plus(shares);
 
   entity.blockNumber = event.block.number;
   entity.blockTimestamp = event.block.timestamp;
-  let amount = event.params.amount;
-  entity.tokenAmount = amount;
-  entity.totalPooledEtherAfter = totalPooledEther;
-  entity.totalPooledEtherBefore = totalPooledEther.minus(amount);
-  entity.totalSharesAfter = shares;
-  entity.totalSharesBefore = shares.minus(amount);
-  totals.totalPooledEther = totals.totalPooledEther.plus(event.params.amount);
-  totals.totalShares = totals.totalShares.plus(shares);
+
+  entity.totalPooledEther = totals.totalPooledEther;
+
+  entity.totalShares = totals.totalShares;
 
   entity.save();
   totals.save();
@@ -89,17 +87,11 @@ export function handleWithdrawal(event: Withdrawal): void {
   if (entity == null) {
     entity = new LidoTokenData(event.transaction.hash.toHex());
   }
-  let lidoContract = loadLidoContract();
-  let totalPooledEther = lidoContract.getTotalPooledEther();
-  let shares = lidoContract.getTotalShares();
-  let amount = event.params.tokenAmount;
-  let etherAmount = event.params.etherAmount;
+  let totals = Totals.load("");
 
-  entity.tokenAmount = amount;
-  entity.totalPooledEtherAfter = totalPooledEther;
-  entity.totalPooledEtherBefore = totalPooledEther.plus(etherAmount);
-  entity.totalSharesBefore = shares.plus(amount);
-  entity.totalSharesAfter = shares;
+  entity.totalPooledEther = totals.totalPooledEther;
+
+  entity.totalShares = totals.totalShares;
 
   entity.blockNumber = event.block.number;
   entity.blockTimestamp = event.block.timestamp;

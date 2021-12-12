@@ -1,9 +1,8 @@
-import { Address } from "@graphprotocol/graph-ts";
 import { BigInt } from "@graphprotocol/graph-ts";
 import { Completed, PostTotalShares } from "../../../generated/LidoOracle/LidoOracle";
 import { LidoRewardData, Totals, LidoOracleTotals } from "../../../generated/schema";
-import { ZERO_BI, ONE_BI } from "../../utils/constants";
-import { loadLidoContract, loadOracleContract, DEPOSIT_AMOUNT, CALCULATION_UNIT } from "./handlers";
+import { loadLidoContract, loadOracleContract, LIDO_DEPOSIT_AMOUNT, LIDO_CALCULATION_UNIT } from "./lidoConstants";
+import { ZERO_BI } from "../../utils/constants";
 
 export function handleCompleted(event: Completed): void {
   let lastOracle = LidoOracleTotals.load("") as LidoOracleTotals;
@@ -29,7 +28,7 @@ export function handleCompleted(event: Completed): void {
 
   // TODO: Can appearedValidators be negative? If eg active keys are deleted for some reason
   let appearedValidators = newBeaconValidators.minus(oldBeaconValidators);
-  let appearedValidatorsDeposits = appearedValidators.times(DEPOSIT_AMOUNT);
+  let appearedValidatorsDeposits = appearedValidators.times(LIDO_DEPOSIT_AMOUNT);
   let rewardBase = appearedValidatorsDeposits.plus(oldBeaconBalance);
   let newTotalRewards = newBeaconBalance.minus(rewardBase);
 
@@ -62,7 +61,7 @@ export function handleCompleted(event: Completed): void {
     ? newTotalRewards
         .times(feeBasis)
         .times(totals.totalShares)
-        .div(totalPooledEtherAfter.times(CALCULATION_UNIT).minus(feeBasis.times(newTotalRewards)))
+        .div(totalPooledEtherAfter.times(LIDO_CALCULATION_UNIT).minus(feeBasis.times(newTotalRewards)))
     : ZERO_BI;
 
   let totalSharesAfter = totals.totalShares.plus(shares2mint);
@@ -71,10 +70,6 @@ export function handleCompleted(event: Completed): void {
   totals.save();
 
   entity.blockTimestamp = event.block.timestamp;
-  let logIndex = event.logIndex;
-
-  entity.lastEpochId = event.params.epochId;
-  entity.logIndex = logIndex;
   entity.epochId = oracleContract.getCurrentEpochId();
   entity.save();
 }
@@ -83,7 +78,6 @@ export function handlePostTotalShares(event: PostTotalShares): void {
   let preTotalPooledEther = event.params.preTotalPooledEther;
 
   let postTotalPooledEther = event.params.postTotalPooledEther;
-  let totalShares = event.params.totalShares;
 
   // new lido event.
   let entity = LidoRewardData.load(event.transaction.hash.toHex());
@@ -125,7 +119,7 @@ export function handlePostTotalShares(event: PostTotalShares): void {
   let feeBasis = BigInt.fromI32(lidoContract.getFee()).toBigDecimal(); // 1000
 
   let apr = aprBeforeFees.minus(
-    aprBeforeFees.times(CALCULATION_UNIT.toBigDecimal()).div(feeBasis).div(BigInt.fromI32(100).toBigDecimal()),
+    aprBeforeFees.times(LIDO_CALCULATION_UNIT.toBigDecimal()).div(feeBasis).div(BigInt.fromI32(100).toBigDecimal()),
   );
 
   entity.apr = apr;
