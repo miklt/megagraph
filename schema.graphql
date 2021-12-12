@@ -246,6 +246,8 @@ type LidoTokenData @entity {
 
 type LidoRewardData @entity {
   id: ID!
+  epochId: BigInt!
+  lastEpochId: BigInt
   blockNumber: BigInt!
   blockTimestamp: BigInt!   
   totalRewards: BigInt
@@ -253,5 +255,17 @@ type LidoRewardData @entity {
   totalFee: BigInt  
   aprBeforeFees: BigDecimal
   apr: BigDecimal
+  logIndex: BigInt
+  timeElapsed: BigInt  
+}
+type LidoOracleTotals @entity {
+  id: ID!  
+  beaconBalance: BigInt!
+  beaconValidators: BigInt!  
+}
+type Totals @entity {
+  id: ID!
+  totalPooledEther: BigInt!
+  totalShares: BigInt!
 }
 

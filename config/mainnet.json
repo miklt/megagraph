@@ -2,7 +2,6 @@
   "blockchain": "ethereum",
   "network": "mainnet",
   "adapters": [
-    
     {
       "adapter": "Lido",
       "contracts": [
@@ -34,8 +33,8 @@
         },
         {
           "contract": "Oracle",
-          "abis": ["Oracle", "NodeOperatorsRegistry"],
-          "entities": ["LidoTokenData","LidoOracle"],
+          "abis": ["Token", "Oracle", "NodeOperatorsRegistry"],
+          "entities": ["LidoTokenData", "LidoOracle"],
           "events": [
             {
               "event-name": "Completed",
@@ -54,7 +53,6 @@
             }
           ]
         }
-        
       ]
     }
   ]
