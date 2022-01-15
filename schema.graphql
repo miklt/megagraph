@@ -252,15 +252,30 @@
 #      Mai Finance
 # ----------------------------------------
 type MaiTokenData @entity {
-  id: ID!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  vault: Bytes!
+  id: ID!  
+  totalClosingFees: BigInt
+  averageCollateralRatio: BigDecimal
+  totalDeposited: BigInt
+  totalBorrowed: BigInt
 }
 type MaiPoolData @entity {
   id: ID!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
+  blockNumber: BigInt
+  blockTimestamp: BigInt
+  vault: Bytes  
+  deposited: BigInt
+  borrowed: BigInt
+  closingFees: BigInt
+  symbol: String
+  txHash: String
+  tokenPrice: BigInt
+  ethPrice: BigInt  
+}
+type MaiCamTokenData @entity {
+  id: ID!
+  blockNumber: BigInt
+  blockTimestamp: BigInt
+  
 }
 # # ----------------------------------------
 # #      Sushi
