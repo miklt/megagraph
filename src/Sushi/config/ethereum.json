@@ -1,0 +1,32 @@
+{
+  "network": "mainnet",
+  "adapter": "Sushi",
+  "contracts": [
+    {
+      "contract": "MasterChef",
+      "abis": ["MasterChef", "UniswapV2Pair"],
+      "entities": ["SushiPoolData", "SushiTokenData"],
+      "events": [
+        {
+          "event-name": "Deposit",
+          "event-params": "(indexed address,indexed uint256,uint256)"
+        },
+        {
+          "event-name": "Withdraw",
+          "event-params": "(indexed address,indexed uint256,uint256)"
+        },
+        {
+          "event-name": "EmergencyWithdraw",
+          "event-params": "(indexed address,indexed uint256,uint256)"
+        }
+      ],
+      "instances": [
+        {
+          "symbol": "",
+          "address": "0xc2edad668740f1aa35e4d8f227fb8e17dca888cd",
+          "startBlock": 10736242
+        }
+      ]
+    }
+  ]
+}

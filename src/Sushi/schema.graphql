@@ -13,7 +13,6 @@ type SushiKashiData @entity {
 
 type SushiPoolData @entity {
   id: ID!
-  lpToken: Bytes!
 }
 
 type SushiTokenData @entity {
@@ -21,7 +20,12 @@ type SushiTokenData @entity {
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   pool: SushiPoolData!
-  sushiPerSecond: BigDecimal
-  rewardPerSecond: BigDecimal
+  sushiPerSecond: BigDecimal # MiniChefv2 and MasterChefv2
+  rewardPerSecond: BigDecimal # MiniChefv2 and MasterChefv2
   lastRewardTime: BigInt
+  sushiPerBlock: BigDecimal # Masterchefv1
+  allocPoint: BigInt
+  lpAddress: Bytes
+  accSushiPerShare: BigDecimal
+  
 }
