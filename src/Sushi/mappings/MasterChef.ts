@@ -6,11 +6,17 @@ import {
 } from "../../../generated/SushiMasterChef/SushiMasterChef";
 
 export function handleDeposit(event: DepositEvent): void {
-  handlePoolV1(event.transaction.hash, event.block.number, event.block.timestamp, event.params.pid);
+  handlePoolV1(event.transaction.hash, event.block.number, event.block.timestamp, event.params.pid, "deposit");
 }
 export function handleWithdraw(event: WithdrawEvent): void {
-  handlePoolV1(event.transaction.hash, event.block.number, event.block.timestamp, event.params.pid);
+  handlePoolV1(event.transaction.hash, event.block.number, event.block.timestamp, event.params.pid, "withdraw");
 }
 export function handleEmergencyWithdraw(event: EmergencyWithdrawEvent): void {
-  handlePoolV1(event.transaction.hash, event.block.number, event.block.timestamp, event.params.pid);
+  handlePoolV1(
+    event.transaction.hash,
+    event.block.number,
+    event.block.timestamp,
+    event.params.pid,
+    "emergencyWithdraw",
+  );
 }

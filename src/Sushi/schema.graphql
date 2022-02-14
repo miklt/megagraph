@@ -27,5 +27,6 @@ type SushiTokenData @entity {
   allocPoint: BigInt
   lpAddress: Bytes
   accSushiPerShare: BigDecimal
+  type: String
   
 }

@@ -1,20 +1,28 @@
-import { Address, BigInt, Bytes, log } from "@graphprotocol/graph-ts";
-import { SushiKashiData, SushiPoolData, SushiTokenData } from "../../../generated/schema";
+import { BigInt, Bytes, log } from "@graphprotocol/graph-ts";
+import { SushiPoolData, SushiTokenData } from "../../../generated/schema";
 import { SushiMasterChef } from "../../../generated/SushiMasterChef/SushiMasterChef";
-import { SushiUniswapV2Pair } from "../../../generated/SushiMasterChef/SushiUniswapV2Pair";
-import { convertBINumToDesiredDecimals, convertBytesToAddress, toAddress } from "../../utils/converters";
+import { convertBINumToDesiredDecimals } from "../../utils/converters";
 import { SushiMasterChefAddress, ZERO_ADDRESS, ZERO_BD, ZERO_BI } from "../../utils/constants";
 
-export function handlePoolV1(txnHash: Bytes, blockNumber: BigInt, timestamp: BigInt, poolId: BigInt): void {
+export function handlePoolV1(
+  txnHash: Bytes,
+  blockNumber: BigInt,
+  timestamp: BigInt,
+  poolId: BigInt,
+  type: string,
+): void {
+  if (poolId.toString() != "1" && poolId.toString() != "8" && poolId.toString() != "17") {
+    return;
+  }
   let entity = SushiTokenData.load(txnHash.toHex());
   if (!entity) entity = new SushiTokenData(txnHash.toHex());
 
   entity.blockNumber = blockNumber;
   entity.blockTimestamp = timestamp;
+  entity.type = type;
 
   let masterChefContract = SushiMasterChef.bind(SushiMasterChefAddress);
 
-  //let pool = getPoolData(masterChefContract, poolId);
   let pool = SushiPoolData.load(poolId.toString());
   if (!pool) {
     pool = new SushiPoolData(poolId.toString());
@@ -23,13 +31,13 @@ export function handlePoolV1(txnHash: Bytes, blockNumber: BigInt, timestamp: Big
 
   entity.pool = pool.id;
 
-  // calculate SUSHI per second
+  // calculate SUSHI per block
 
   let totalSushiPerBlock = ZERO_BD;
 
   let sushiPerBlock = masterChefContract.try_sushiPerBlock();
   if (sushiPerBlock.reverted) {
-    log.warning("sushiPerSecond() reverted", []);
+    log.warning("sushiPerBlock() reverted", []);
   } else {
     totalSushiPerBlock = convertBINumToDesiredDecimals(sushiPerBlock.value, 18);
   }
@@ -43,7 +51,6 @@ export function handlePoolV1(txnHash: Bytes, blockNumber: BigInt, timestamp: Big
   }
 
   let allocPoint = ZERO_BI;
-  //   let multiplier = BigInt.fromString("1");
   let lastRewardTime = ZERO_BI;
   let lpAddress = ZERO_ADDRESS;
   let accSushiPerShare = ZERO_BD;
@@ -56,12 +63,6 @@ export function handlePoolV1(txnHash: Bytes, blockNumber: BigInt, timestamp: Big
     lastRewardTime = poolInfoResult.value.value2;
     accSushiPerShare = convertBINumToDesiredDecimals(poolInfoResult.value.value3, 12);
   }
-  //   let multiplierResult = masterChefContract.try_getMultiplier(lastRewardTime, blockNumber);
-  //   if (multiplierResult.reverted) {
-  //     log.warning("multiplier({}) reverted", [blockNumber.toString()]);
-  //   } else {
-  //     multiplier = multiplierResult.value;
-  //   }
 
   if (totalAllocPoint > ZERO_BI) {
     entity.sushiPerBlock = totalSushiPerBlock.times(allocPoint.toBigDecimal()).div(totalAllocPoint.toBigDecimal());
@@ -71,23 +72,4 @@ export function handlePoolV1(txnHash: Bytes, blockNumber: BigInt, timestamp: Big
   entity.accSushiPerShare = accSushiPerShare;
   entity.lastRewardTime = lastRewardTime;
   entity.save();
-}
-function getPoolData(masterChefContract: SushiMasterChef, id: BigInt): SushiPoolData {
-  let pool = SushiPoolData.load(id.toString());
-  if (pool) {
-    return pool as SushiPoolData;
-  }
-
-  pool = new SushiPoolData(id.toString());
-
-  let lpTokenResult = masterChefContract.try_poolInfo(id);
-  if (lpTokenResult.reverted) {
-    log.warning("lpToken({}) reverted", [id.toString()]);
-  } else {
-    pool.lpToken = lpTokenResult.value.value0;
-  }
-
-  pool.save();
-
-  return pool as SushiPoolData;
 }
