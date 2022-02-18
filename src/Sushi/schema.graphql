@@ -27,6 +27,17 @@ type SushiTokenData @entity {
   allocPoint: BigInt
   lpAddress: Bytes
   accSushiPerShare: BigDecimal
+  type: String 
+}
+type SushiTokenDataV2 @entity {
+  id: ID!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  pool: SushiPoolData!
+  lastRewardTime: BigInt
+  sushiPerBlock: BigDecimal # Masterchefv1
+  allocPoint: BigInt
+  lpAddress: Bytes
+  accSushiPerShare: BigDecimal
   type: String
-  
 }

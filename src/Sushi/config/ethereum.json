@@ -3,28 +3,20 @@
   "adapter": "Sushi",
   "contracts": [
     {
-      "contract": "MasterChef",
-      "abis": ["MasterChef", "UniswapV2Pair"],
-      "entities": ["SushiPoolData", "SushiTokenData"],
+      "contract": "MasterChefV2",
+      "abis": ["MasterChefV2", "UniswapV2Pair"],
+      "entities": ["SushiTokenDataV2"],
       "events": [
         {
-          "event-name": "Deposit",
-          "event-params": "(indexed address,indexed uint256,uint256)"
-        },
-        {
-          "event-name": "Withdraw",
-          "event-params": "(indexed address,indexed uint256,uint256)"
-        },
-        {
-          "event-name": "EmergencyWithdraw",
-          "event-params": "(indexed address,indexed uint256,uint256)"
+          "event-name": "LogUpdatePool",
+          "event-params": "(indexed uint256,uint64,uint256,uint256)"
         }
       ],
       "instances": [
         {
           "symbol": "",
-          "address": "0xc2edad668740f1aa35e4d8f227fb8e17dca888cd",
-          "startBlock": 10736242
+          "address": "0xEF0881eC094552b2e128Cf945EF17a6752B4Ec5d",
+          "startBlock": 12428169
         }
       ]
     }
