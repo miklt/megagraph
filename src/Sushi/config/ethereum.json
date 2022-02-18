@@ -4,7 +4,7 @@
   "contracts": [
     {
       "contract": "MasterChefV2",
-      "abis": ["MasterChefV2", "UniswapV2Pair"],
+      "abis": ["MasterChefV2", "CloneRewarderTime"],
       "entities": ["SushiTokenDataV2"],
       "events": [
         {

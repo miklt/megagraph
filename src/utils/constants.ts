@@ -39,6 +39,7 @@ export let LidoTreasuryAddress: Address = toAddress("0x4333218072D5d700854673778
 
 export let SushiMiniChefAddress = toAddress("0x0769fd68dFb93167989C6f7254cd0D766Fb2841F");
 export let SushiMasterChefAddress = toAddress("0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd");
+export let SushiMasterChefV2Address = toAddress("0xEF0881eC094552b2e128Cf945EF17a6752B4Ec5d");
 
 export let CAM_INCENTIVES_CONTROLLER_ADDRESS: Address = toAddress("0x357D51124f59836DeD84c8a1730D72B749d8BC23");
 export let CAM_LENDING_POOL_ADDRESS: Address = toAddress("0x8dFf5E27EA6b7AC08EbFdf9eB090F32ee9a30fcf");
