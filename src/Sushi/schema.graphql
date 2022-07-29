@@ -17,16 +17,19 @@ type SushiPoolData @entity {
 
 type SushiTokenData @entity {
   id: ID!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  pool: SushiPoolData!
-  sushiPerSecond: BigDecimal # MiniChefv2 and MasterChefv2
-  rewardPerSecond: BigDecimal # MiniChefv2 and MasterChefv2
+  blocknumber: BigInt!
+  timestamp: BigInt!
+  poolId: SushiPoolData!
+  sushiPerSecond: BigInt
+  rewardPerSecond: BigInt
   lastRewardTime: BigInt
-  sushiPerBlock: BigDecimal # Masterchefv1
+  stakedLPRewardsPerBlock: BigInt
   allocPoint: BigInt
   lpAddress: Bytes
-  accSushiPerShare: BigDecimal
-  type: String
-  
+  accSushiPerShare: BigInt
+  event: String
+  amount: BigInt
+  totalStakedLPTokens: BigInt
+  indexedBlock: BigDecimal
+  gasCost: BigInt
 }
